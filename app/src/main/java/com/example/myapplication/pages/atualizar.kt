@@ -1,20 +1,19 @@
 package com.example.myapplication.pages
 
-import android.content.Context
 import androidx.compose.foundation.layout.Column
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.room.Room
-import androidx.room.RoomDatabase
 import com.example.myapplication.components.Field
 import com.example.myapplication.database.AppDatabase
 import com.example.myapplication.database.Cliente
 
 @Composable
-fun Cadastrar(db: AppDatabase){
+fun Atualizar(db: AppDatabase, nome: String?){
+
+    var cliente = db.clienteDao().findByName(nome.orEmpty())
 
     var name = remember { mutableStateOf("") }
     var email = remember { mutableStateOf("") }
@@ -22,27 +21,22 @@ fun Cadastrar(db: AppDatabase){
     var cpf = remember { mutableStateOf("") }
 
     Column {
-        Field(name = "Nome", text = name)
-        Field(name = "Email", text = email)
-        Field(name = "Idade", text = idade)
-        Field(name = "CPF", text = cpf)
-
+        Field("name", name)
+        Field("email", email)
+        Field("idade", idade)
+        Field("CPF", cpf)
         Button(onClick = {
-           var cliente = Cliente(
-                uid = null,
+
+            var cliente2 = Cliente(
+                uid = cliente.uid,
                 nome = name.value,
                 email = email.value,
                 idade = idade.value,
                 cpf = cpf.value
             )
 
-            db.clienteDao().insertAll(cliente)
-        }) {
-            Text("Cadastrar")
-        }
+            db.clienteDao().update(cliente2)
 
-        Listar(db)
+        }) { Text("atualizar") }
     }
-
-
 }

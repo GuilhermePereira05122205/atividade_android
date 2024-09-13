@@ -6,9 +6,11 @@ import androidx.room.PrimaryKey
 
 @Entity
     data class Cliente(
-    @PrimaryKey val uid: Int,
+    @PrimaryKey(autoGenerate = true) val uid: Int?,
     @ColumnInfo(name = "nome") val nome: String?,
     @ColumnInfo(name = "email") val email: String?,
     @ColumnInfo(name = "idade") val idade: String?,
     @ColumnInfo(name = "cpf") val cpf: String?
+
+
 )

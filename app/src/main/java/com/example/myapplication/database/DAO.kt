@@ -4,6 +4,7 @@ import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
+import androidx.room.Update
 
 @Dao
 interface ClienteDao {
@@ -13,12 +14,14 @@ interface ClienteDao {
     @Query("SELECT * FROM cliente WHERE uid IN (:clienteIds)")
     fun loadAllByIds(clienteIds: IntArray): List<Cliente>
 
-    @Query("SELECT * FROM cliente WHERE nome LIKE :first AND " +
-            "email LIKE :last LIMIT 1")
-    fun findByName(first: String, last: String): Cliente
+    @Query("SELECT * FROM cliente WHERE nome LIKE :first")
+    fun findByName(first: String): Cliente
 
     @Insert
     fun insertAll(vararg clientes: Cliente)
+
+    @Update
+    fun update(vararg clientes: Cliente)
 
     @Delete
     fun delete(cliente: Cliente)
